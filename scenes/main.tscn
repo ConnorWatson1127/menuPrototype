@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://ns122gp0d8dm"]
+
+[ext_resource type="Script" uid="uid://glsv8nh768rl" path="res://code/logic/main.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://d314g7n8n40ip" path="res://scenes/Field.tscn" id="2_0wfyh"]
+
+[node name="Main" type="Node2D" unique_id=1618964499]
+script = ExtResource("1_o5qli")
+
+[node name="Field" parent="." unique_id=2037000320 instance=ExtResource("2_0wfyh")]

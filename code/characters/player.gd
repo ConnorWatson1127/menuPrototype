@@ -1,24 +1,23 @@
-class_name Player extends Node2D
+class_name Player extends CharacterBody2D
 
-@export var health: healthComponent
-@export var power: powerComponent
+@export var stats: statsResource
 @export var input: inputComponent
 @export var movement: movementComponent
 
 var wantsAttack: bool = false
 
 func _ready() -> void:
-	health.hasDied.connect(onDied)
+	stats.hasDied.connect(onDied)
 
 func _physics_process(delta: float) -> void:
 	#read controlls
 	input.update()
 	
 	if input.damagePressed:
-		health.takeDamage(power.damage)
+		stats.takeDamage(stats.damage)
 		input.damagePressed = false
 	if input.healPressed:
-		health.heal(power.heal)
+		stats.heal(stats.healing)
 		input.healPressed = false
 	
 	#read movement component

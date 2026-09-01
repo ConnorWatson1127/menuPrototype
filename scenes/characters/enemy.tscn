@@ -2,35 +2,44 @@
 
 [ext_resource type="Script" uid="uid://codtuha7tk4eo" path="res://code/characters/enemy.gd" id="1_fulqv"]
 [ext_resource type="Texture2D" uid="uid://osamkagjy6ga" path="res://sprites/goomba.svg" id="2_f2e6v"]
-[ext_resource type="Script" uid="uid://rrixaiqhcykv" path="res://code/components/health_component.gd" id="3_3k4es"]
+[ext_resource type="Script" uid="uid://rrixaiqhcykv" path="res://code/resources/statsResource.gd" id="3_3k4es"]
 [ext_resource type="Script" uid="uid://6w3n5eabv06" path="res://code/components/brain_component.gd" id="4_x5khh"]
-[ext_resource type="Script" uid="uid://yf8kbro46671" path="res://code/components/power_component.gd" id="5_0ag5d"]
 [ext_resource type="Script" uid="uid://ctuqkwcxbna2x" path="res://code/components/movement_component.gd" id="6_f0ik5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(54, 69)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3k4es"]
+size = Vector2(56, 72)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_rc7n0"]
 radius = 350.0
 
-[node name="Enemy" type="CharacterBody2D" unique_id=844367845 node_paths=PackedStringArray("health", "power", "brain", "movement")]
+[sub_resource type="GDScript" id="GDScript_jgk6k"]
+script/source = "class_name powerComponent extends Node
+"
+
+[node name="Enemy" type="CharacterBody2D" unique_id=844367845 node_paths=PackedStringArray("brain", "movement")]
 script = ExtResource("1_fulqv")
-health = NodePath("healthComponent")
-power = NodePath("powerComponent")
 brain = NodePath("brainComponent")
 movement = NodePath("movementComponent")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1053694655]
+[node name="bodyCollider" type="CollisionShape2D" parent="." unique_id=1053694655]
 shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="BattleInitDetector" type="Area2D" parent="." unique_id=592604166]
+
+[node name="battleCollider" type="CollisionShape2D" parent="BattleInitDetector" unique_id=1036010568]
+shape = SubResource("RectangleShape2D_3k4es")
+
+[node name="playerDetector" type="Area2D" parent="." unique_id=1648464259]
+
+[node name="detectorCollider" type="CollisionShape2D" parent="playerDetector" unique_id=1719479530]
+shape = SubResource("CircleShape2D_rc7n0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=174561423]
 scale = Vector2(3, 3)
 texture = ExtResource("2_f2e6v")
-
-[node name="playerDetector" type="Area2D" parent="." unique_id=1648464259]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetector" unique_id=1719479530]
-shape = SubResource("CircleShape2D_rc7n0")
 
 [node name="healthComponent" type="Node" parent="." unique_id=599828054]
 script = ExtResource("3_3k4es")
@@ -42,12 +51,13 @@ enemy = NodePath("..")
 metadata/_custom_type_script = "uid://6w3n5eabv06"
 
 [node name="powerComponent" type="Node" parent="." unique_id=1438608154]
-script = ExtResource("5_0ag5d")
+script = SubResource("GDScript_jgk6k")
 metadata/_custom_type_script = "uid://yf8kbro46671"
 
 [node name="movementComponent" type="Node" parent="." unique_id=937512076]
 script = ExtResource("6_f0ik5")
 metadata/_custom_type_script = "uid://ctuqkwcxbna2x"
 
+[connection signal="body_entered" from="BattleInitDetector" to="." method="_on_battle_init_detector_body_entered"]
 [connection signal="body_entered" from="playerDetector" to="brainComponent" method="_on_player_detector_body_entered"]
 [connection signal="body_exited" from="playerDetector" to="brainComponent" method="_on_player_detector_body_exited"]

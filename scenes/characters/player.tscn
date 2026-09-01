@@ -2,18 +2,20 @@
 
 [ext_resource type="Script" uid="uid://coxco51ewy5il" path="res://code/characters/player.gd" id="1_e22cc"]
 [ext_resource type="Texture2D" uid="uid://dy1qjh5m6mxdd" path="res://sprites/mario.svg" id="2_yscb1"]
-[ext_resource type="Script" uid="uid://yf8kbro46671" path="res://code/components/power_component.gd" id="3_yscb1"]
-[ext_resource type="Script" uid="uid://rrixaiqhcykv" path="res://code/components/health_component.gd" id="4_ysl2u"]
+[ext_resource type="Script" uid="uid://rrixaiqhcykv" path="res://code/resources/statsResource.gd" id="4_ysl2u"]
 [ext_resource type="Script" uid="uid://dgvpff7i3nfnr" path="res://code/components/input_component.gd" id="5_oqd6d"]
 [ext_resource type="Script" uid="uid://ctuqkwcxbna2x" path="res://code/components/movement_component.gd" id="6_03c51"]
+
+[sub_resource type="Resource" id="Resource_g4v7s"]
+script = ExtResource("4_ysl2u")
+metadata/_custom_type_script = "uid://rrixaiqhcykv"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(66, 105)
 
-[node name="player" type="CharacterBody2D" unique_id=270327600 node_paths=PackedStringArray("health", "power", "input", "movement")]
+[node name="player" type="CharacterBody2D" unique_id=270327600 node_paths=PackedStringArray("input", "movement")]
 script = ExtResource("1_e22cc")
-health = NodePath("healthComponent")
-power = NodePath("powerComponent")
+stats = SubResource("Resource_g4v7s")
 input = NodePath("inputComponent")
 movement = NodePath("movementComponent")
 
@@ -24,19 +26,11 @@ shape = SubResource("RectangleShape2D_g4v7s")
 scale = Vector2(3, 3)
 texture = ExtResource("2_yscb1")
 
-[node name="powerComponent" type="Node" parent="." unique_id=305005805]
-script = ExtResource("3_yscb1")
-metadata/_custom_type_script = "uid://yf8kbro46671"
-
-[node name="healthComponent" type="Node" parent="." unique_id=172293212]
-script = ExtResource("4_ysl2u")
-metadata/_custom_type_script = "uid://rrixaiqhcykv"
-
 [node name="inputComponent" type="Node" parent="." unique_id=2023680780]
 script = ExtResource("5_oqd6d")
 metadata/_custom_type_script = "uid://dgvpff7i3nfnr"
 
-[node name="movementComponent" type="Node" parent="." unique_id=1481413310 node_paths=PackedStringArray("body")]
+[node name="movementComponent" type="Node" parent="." unique_id=1481413310]
 script = ExtResource("6_03c51")
-body = NodePath("..")
+speed = 350.0
 metadata/_custom_type_script = "uid://ctuqkwcxbna2x"
